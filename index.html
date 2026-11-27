@@ -1,0 +1,1441 @@
+<!doctype html>
+<html lang="vi">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Từ David Hilbert đến Christoph Bandt và thế hệ thứ 7 Mai Thế Duy và 23 nhà toán học khác | Cây truyền thừa toán học 3D</title>
+<style>
+:root{color-scheme:dark;--surface:#121f2e;--ink:#f1f6fd;--muted:#becbdb;--border:#33465a;--mint:#7ef0d2;--amber:#ffc479;--blue:#a8c9ff}
+*{box-sizing:border-box}body{margin:0;background:#0a121e;color:var(--ink);font:16px/1.5 system-ui,sans-serif}main{max-width:1450px;margin:auto;padding:28px clamp(12px,4vw,56px)}h1{font-size:clamp(25px,4vw,48px);letter-spacing:-.04em;line-height:1.12;margin:0}h2{font-size:19px;margin:0 0 8px}h3{font-size:15px;margin:14px 0 5px}p{margin:8px 0;color:var(--muted)}a{color:var(--mint)}button{font:inherit;color:inherit;background:var(--surface);border:1px solid var(--border);padding:7px 11px;border-radius:8px;cursor:pointer}button[aria-pressed=true]{border-color:var(--mint);background:#193b3c}button:hover,:focus-visible{outline:2px solid var(--mint);outline-offset:2px}.controls,.legend{display:flex;align-items:center;gap:8px 15px;flex-wrap:wrap;margin:15px 0}.legend{padding:8px 12px;font-size:13px;margin:0;color:var(--muted)}.layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,340px);gap:14px}.stage,aside{border:1px solid var(--border);background:var(--surface);border-radius:14px;overflow:hidden}aside{padding:16px}canvas{width:100%;height:clamp(400px,61vh,750px);display:block;background:radial-gradient(ellipse at center,#233e51,#0b1522 85%);cursor:grab;touch-action:none}canvas:active{cursor:grabbing}.record{border-top:1px solid var(--border);padding:8px 0}.record p{font-size:13px;margin:3px 0}.people{display:flex;flex-wrap:wrap;gap:6px}.people button{font-size:13px}.people{max-height:86px;overflow:auto;padding:4px}aside{max-height:clamp(450px,66vh,800px);overflow:auto}#student-editor{padding:14px;border:1px solid var(--border);border-radius:12px}summary{cursor:pointer;color:var(--muted)}details{margin-top:14px}li{margin:6px 0}@media(max-width:820px){.layout{grid-template-columns:1fr}}
+#student-form{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}#student-form input,#student-form select{font:inherit;color:inherit;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:7px 10px;max-width:100%}
+</style>
+<main>
+<h1>Từ David Hilbert đến Christoph Bandt và thế hệ thứ 7 Mai Thế Duy và 23 nhà toán học khác</h1>
+<p>Cây truyền thừa toán học 3D · Bảy thế hệ · Nhánh Christoph Bandt</p>
+<div class="controls"><button id="toggle" aria-pressed="true">Hiện công trình trên bản đồ</button><button id="reset">Đặt lại góc nhìn</button><div class="people" id="people" aria-label="Chọn nhà khoa học"></div></div>
+<div class="layout">
+<section class="stage" aria-label="Cây truyền thừa 3D"><canvas id="graph" aria-label="Kéo để xoay, cuộn để phóng to. Có thể chọn nhà khoa học bằng các nút phía trên."></canvas>
+<div class="legend"><span style="color:var(--mint)">━━ Hướng dẫn tiến sĩ</span><span style="color:var(--amber)">┄┄ Đề xuất đề tài, thẩm định hoặc ghi nhận bổ sung</span><span style="color:#96dcff">┄┄ Quan hệ thầy trò theo kỷ yếu</span><span style="color:var(--blue)">● Công trình</span><span style="color:#d7bbff">··· Hướng dẫn thạc sĩ hoặc nghiên cứu</span><span>Kéo để xoay · Cuộn để thu phóng · Bấm nút để xem chi tiết</span></div>
+</section>
+<aside aria-live="polite" id="details"></aside>
+</div>
+<p>Chọn một người để xem luận án, công trình và nguồn. Đếm từ David Hilbert (thế hệ 1). Thế hệ 7 gồm 23 tên trong danh sách Greifswald và Jörg Schmeling. Katrin Hirsch được nối bằng quan hệ thẩm định luận án. Học trò thêm từ Mai Thế Duy thuộc thế hệ 8.</p>
+<details id="student-editor"><summary>Thêm học trò của Duymt</summary>
+<form id="student-form">
+<input name="name" placeholder="Họ và tên" aria-label="Họ và tên học trò" required maxlength="120">
+<select name="role" aria-label="Loại hướng dẫn"><option value="doctorate">Hướng dẫn tiến sĩ</option><option value="masters">Hướng dẫn thạc sĩ</option><option value="research">Hướng dẫn nghiên cứu</option></select>
+<input name="year" inputmode="numeric" placeholder="Năm" aria-label="Năm" maxlength="4" pattern="[0-9]{4}">
+<input name="place" placeholder="Cơ sở đào tạo" aria-label="Cơ sở đào tạo" maxlength="180">
+<input name="url" type="url" placeholder="URL nguồn xác minh" aria-label="URL nguồn xác minh" maxlength="1500">
+<button type="submit">Thêm vào cây</button>
+</form>
+<button type="button" id="export-students">Tải JSON học trò</button> <button type="button" id="import-students">Nhập JSON học trò</button>
+<input type="file" id="student-file" accept=".json,application/json" hidden>
+<p id="student-status" role="status"></p>
+<p>Danh sách bổ sung được lưu trong trình duyệt hiện tại. Hãy đính kèm liên kết luận án hoặc hồ sơ đào tạo khi có.</p>
+</details>
+<details><summary>Mắt xích và nguồn xác minh</summary><ol id="evidence"></ol></details>
+</main>
+<script>
+"use strict";
+const people=[
+ {
+  "name": "David Hilbert",
+  "short": "Hilbert",
+  "focus": "Thế hệ 1 · Nền tảng hình học và phương trình tích phân.",
+  "xyz": [
+   -360,
+   -48,
+   0
+  ]
+ },
+ {
+  "name": "Erhard Schmidt",
+  "short": "Schmidt",
+  "focus": "Thế hệ 2 · Luận án về phương trình tích phân dưới sự hướng dẫn của Hilbert.",
+  "xyz": [
+   -240,
+   -32,
+   23
+  ]
+ },
+ {
+  "name": "Heinz Hopf",
+  "short": "Hopf",
+  "focus": "Thế hệ 3 · Tô pô của đa tạp.",
+  "xyz": [
+   -120,
+   -16,
+   0
+  ]
+ },
+ {
+  "name": "Willi Rinow",
+  "short": "Rinow",
+  "focus": "Thế hệ 4 · Năm 1932 tại Berlin, Heinz Hopf đề xuất đề tài và cùng Ludwig Bieberbach thẩm định luận án.",
+  "xyz": [
+   0,
+   0,
+   23
+  ]
+ },
+ {
+  "name": "Jürgen Flachsmeyer",
+  "short": "Flachsmeyer",
+  "focus": "Thế hệ 5 · Tô pô và lý thuyết compact hóa. Đã ghi nhận Christoph Bandt. Học trò thứ hai đang chờ đối chiếu nguồn.",
+  "xyz": [
+   120,
+   16,
+   0
+  ]
+ },
+ {
+  "name": "Christoph Bandt",
+  "short": "Bandt",
+  "focus": "Thế hệ 6 · Luận án năm 1975 về compact hóa Wallman–Shanin và thứ tự xạ ảnh.",
+  "xyz": [
+   240,
+   32,
+   23
+  ],
+  "profile": "https://orcid.org/0000-0002-6410-7144",
+  "more": "https://maitheduy.github.io/Bandt/"
+ },
+ {
+  "name": "Mai Thế Duy",
+  "short": "Mai Thế Duy",
+  "focus": "Thế hệ 7 · Bandt là người thẩm định thứ nhất. Bảo vệ ngày 17/05/2011. Danh sách Greifswald ghi tên đề tài ngắn là On the geometry of self-similar sets.",
+  "xyz": [
+   360,
+   48,
+   0
+  ],
+  "profile": "https://orcid.org/0009-0009-8735-6264",
+  "more": "https://maitheduy.github.io/zenodo-duymt-3d/"
+ },
+ {
+  "name": "Ludwig Bieberbach",
+  "short": "Ludwig Bieberbach",
+  "focus": "Nhánh thẩm định · Thẩm định luận án của Willi Rinow cùng Heinz Hopf, Berlin, 1932.",
+  "xyz": [
+   -100,
+   130,
+   -75
+  ]
+ },
+ {
+  "name": "Götz Gelbrich",
+  "short": "Götz Gelbrich",
+  "quiet": true,
+  "focus": "Thế hệ 7 · Greifswald · 1994.",
+  "xyz": [
+   350,
+   155.0,
+   0.0
+  ]
+ },
+ {
+  "name": "Diana Giuliani",
+  "short": "Diana Giuliani",
+  "quiet": true,
+  "focus": "Thế hệ 7 · Greifswald · 1996.",
+  "xyz": [
+   369,
+   -114.29215204931785,
+   110.10494557597121
+  ]
+ },
+ {
+  "name": "Frank Kriese",
+  "short": "Frank Kriese",
+  "quiet": true,
+  "focus": "Thế hệ 7 · Greifswald · 1997. Greifswald ghi 1997. Mathematics Genealogy Project ghi 1998. Chưa rõ nguyên nhân chênh lệch.",
+  "xyz": [
+   388,
+   13.550916387927627,
+   -162.37588620839702
+  ]
+ },
+ {
+  "name": "Ekkehard Krause",
+  "short": "Ekkehard Krause",
+  "quiet": true,
+  "focus": "Thế hệ 7 · Greifswald · 1997.",
+  "xyz": [
+   350,
+   94.30810822716789,
+   129.35685411013006
+  ]
+ },
+ {
+  "name": "Petra Gummelt",
+  "short": "Petra Gummelt",
+  "quiet": true,
+  "focus": "Thế hệ 7 · Greifswald · 1998.",
+  "xyz": [
+   369,
+   -152.6306150328696,
+   -28.39151041839534
+  ]
+ },
+ {
+  "name": "Matthias Borchardt",
+  "short": "Matthias Borchardt",
+  "quiet": true,
+  "focus": "Thế hệ 7 · Greifswald · 1998.",
+  "xyz": [
+   388,
+   130.7819751369305,
+   -87.48683055336839
+  ]
+ },
+ {
+  "name": "Andreas Seib",
+  "short": "Andreas Seib",
+  "quiet": true,
+  "focus": "Thế hệ 7 · Greifswald · 2000.",
+  "xyz": [
+   350,
+   -40.23846093693919,
+   157.4116154496015
+  ]
+ },
+ {
+  "name": "Mohamed Mubarak",
+  "short": "Mohamed Mubarak",
+  "quiet": true,
+  "focus": "Thế hệ 7 · Greifswald · 2004.",
+  "xyz": [
+   369,
+   -71.44081003196047,
+   -144.6539731536589
+  ]
+ },
+ {
+  "name": "Faten Shiha",
+  "short": "Faten Shiha",
+  "quiet": true,
+  "focus": "Thế hệ 7 · Greifswald · 2004.",
+  "xyz": [
+   388,
+   145.59489864918763,
+   55.91501544350717
+  ]
+ },
+ {
+  "name": "Andreas Groth",
+  "short": "Andreas Groth",
+  "quiet": true,
+  "focus": "Thế hệ 7 · Greifswald · 2006.",
+  "xyz": [
+   350,
+   -143.2734389231101,
+   62.194006096765044
+  ]
+ },
+ {
+  "name": "Nguyen Viet Hung",
+  "short": "Nguyen Viet Hung",
+  "quiet": true,
+  "focus": "Thế hệ 7 · Greifswald · 2007.",
+  "xyz": [
+   369,
+   65.69580671892523,
+   -147.63484513857387
+  ]
+ },
+ {
+  "name": "Birte Holtfreter",
+  "short": "Birte Holtfreter",
+  "quiet": true,
+  "focus": "Thế hệ 7 · Greifswald · 2008.",
+  "xyz": [
+   388,
+   46.389372722826266,
+   155.52862833362684
+  ]
+ },
+ {
+  "name": "Mathias Mesing",
+  "short": "Mathias Mesing",
+  "quiet": true,
+  "focus": "Thế hệ 7 · Greifswald · 2008.",
+  "xyz": [
+   350,
+   -134.1079517603409,
+   -81.72904695857139
+  ]
+ },
+ {
+  "name": "Nguyen Van Son",
+  "short": "Nguyen Van Son",
+  "quiet": true,
+  "focus": "Thế hệ 7 · Greifswald · 2010.",
+  "xyz": [
+   369,
+   151.38464551737374,
+   -34.999742374467345
+  ]
+ },
+ {
+  "name": "Kathleen Dittmann",
+  "short": "Kathleen Dittmann",
+  "quiet": true,
+  "focus": "Thế hệ 7 · Greifswald · 2011. Đồng hướng dẫn với GS. C. Schmidt, Huyết học, theo Greifswald.",
+  "xyz": [
+   388,
+   -89.14465370293338,
+   133.3444776314691
+  ]
+ },
+ {
+  "name": "Stefan Frenzel",
+  "short": "Stefan Frenzel",
+  "quiet": true,
+  "focus": "Thế hệ 7 · Greifswald · 2012.",
+  "xyz": [
+   369,
+   118.52096145377057,
+   105.04440008342176
+  ]
+ },
+ {
+  "name": "Nguyen Hoang Huy",
+  "short": "Nguyen Hoang Huy",
+  "quiet": true,
+  "focus": "Thế hệ 7 · Greifswald · 2012.",
+  "xyz": [
+   388,
+   -154.8676133588214,
+   6.735441704615371
+  ]
+ },
+ {
+  "name": "Le Trung Kien",
+  "short": "Le Trung Kien",
+  "quiet": true,
+  "focus": "Thế hệ 7 · Greifswald · 2012.",
+  "xyz": [
+   350,
+   109.8681071077956,
+   -114.97740817920521
+  ]
+ },
+ {
+  "name": "Marcus Vollmer",
+  "short": "Marcus Vollmer",
+  "quiet": true,
+  "focus": "Thế hệ 7 · Greifswald · 2013.",
+  "xyz": [
+   369,
+   -7.1589982919516135,
+   162.82604755801944
+  ]
+ },
+ {
+  "name": "Helena Pena",
+  "short": "Helena Pena",
+  "quiet": true,
+  "focus": "Thế hệ 7 · Greifswald · 2014.",
+  "xyz": [
+   388,
+   -99.31046425225313,
+   -125.14826130583492
+  ]
+ },
+ {
+  "name": "Rüdiger Zeller",
+  "short": "Rüdiger Zeller",
+  "quiet": true,
+  "focus": "Thế hệ 7 · Greifswald · 2014.",
+  "xyz": [
+   350,
+   153.61585868429816,
+   21.734779666164325
+  ]
+ },
+ {
+  "name": "Hang Thi Thanh Giang",
+  "short": "Hang Thi Thanh Giang",
+  "quiet": true,
+  "focus": "Thế hệ 7 · Greifswald · 2015.",
+  "xyz": [
+   369,
+   -127.23259481784132,
+   93.09516785598107
+  ]
+ },
+ {
+  "name": "Jörg Schmeling",
+  "short": "Jörg Schmeling",
+  "quiet": true,
+  "focus": "Thế hệ 7 · Greifswald, 1991 · Wikidata dẫn Mathematics Genealogy Project ghi Christoph Bandt là người hướng dẫn tiến sĩ.",
+  "xyz": [
+   395,
+   180,
+   -40
+  ]
+ },
+ {
+  "name": "Katrin Hirsch",
+  "short": "Katrin Hirsch",
+  "quiet": true,
+  "focus": "Hồ sơ liên quan · Luận án tại Halle-Wittenberg năm 1999 ghi Christoph Bandt là người thẩm định thứ nhất.",
+  "xyz": [
+   395,
+   -170,
+   -40
+  ]
+ },
+ {
+  "name": "Otto Blumenthal",
+  "short": "Blumenthal",
+  "focus": "Thế hệ 2 · Göttingen · 1898 · Hướng dẫn tiến sĩ",
+  "xyz": [
+   -240,
+   -127,
+   -17
+  ]
+ },
+ {
+  "name": "Salomon Bochner",
+  "short": "Bochner",
+  "focus": "Thế hệ 3 · Berlin · 1921 · Hướng dẫn tiến sĩ, với sự hỗ trợ của Issai Schur",
+  "xyz": [
+   -120,
+   79,
+   50
+  ]
+ },
+ {
+  "name": "Beno Eckmann",
+  "short": "Eckmann",
+  "focus": "Thế hệ 4 · ETH Zürich · 1941 · Hướng dẫn tiến sĩ",
+  "xyz": [
+   0,
+   -95,
+   -17
+  ]
+ },
+ {
+  "name": "Jürgen Eichhorn",
+  "short": "Eichhorn",
+  "focus": "Thế hệ 5 · Học trò theo kỷ yếu Đại học Greifswald",
+  "xyz": [
+   120,
+   111,
+   50
+  ]
+ }
+];
+const links=[
+ {
+  "from": 0,
+  "to": 1,
+  "year": 1905,
+  "place": "Göttingen",
+  "url": "https://mathshistory.st-andrews.ac.uk/Biographies/Schmidt/",
+  "role": "Hướng dẫn tiến sĩ",
+  "kind": null
+ },
+ {
+  "from": 1,
+  "to": 2,
+  "year": 1925,
+  "place": "Berlin",
+  "url": "https://mathshistory.st-andrews.ac.uk/Biographies/Hopf/",
+  "role": "Hướng dẫn tiến sĩ",
+  "kind": null
+ },
+ {
+  "from": 2,
+  "to": 3,
+  "year": 1932,
+  "place": "Berlin",
+  "url": "https://www.mathematik.de/images/Mathematik/ALGORISMUS_58_2_ohne%20Abb.pdf",
+  "role": "Đề xuất đề tài và thẩm định",
+  "kind": "review"
+ },
+ {
+  "from": 3,
+  "to": 4,
+  "year": 1960,
+  "place": "Greifswald",
+  "url": "https://www.mathgenealogy.org/id.php?id=22008",
+  "role": "Hướng dẫn tiến sĩ",
+  "kind": null
+ },
+ {
+  "from": 4,
+  "to": 5,
+  "year": 1975,
+  "place": "Greifswald",
+  "url": "https://www.mathgenealogy.org/id.php?id=22006",
+  "role": "Hướng dẫn tiến sĩ",
+  "kind": null
+ },
+ {
+  "from": 5,
+  "to": 6,
+  "year": 2011,
+  "place": "Greifswald",
+  "url": "https://math-inf.uni-greifswald.de/en/institut/ueber-uns/mitarbeitende/emeriti/bandt/promotionen/",
+  "role": "Hướng dẫn tiến sĩ theo danh sách Greifswald",
+  "kind": null
+ },
+ {
+  "from": 7,
+  "to": 3,
+  "year": 1932,
+  "place": "Berlin",
+  "url": "https://www.mathematik.de/images/Mathematik/ALGORISMUS_58_2_ohne%20Abb.pdf",
+  "role": "Thẩm định luận án",
+  "kind": "review"
+ },
+ {
+  "from": 5,
+  "to": 8,
+  "year": "1994",
+  "place": "Greifswald",
+  "url": "https://math-inf.uni-greifswald.de/en/institut/ueber-uns/mitarbeitende/emeriti/bandt/promotionen/",
+  "role": "Hướng dẫn tiến sĩ",
+  "kind": null
+ },
+ {
+  "from": 5,
+  "to": 9,
+  "year": "1996",
+  "place": "Greifswald",
+  "url": "https://math-inf.uni-greifswald.de/en/institut/ueber-uns/mitarbeitende/emeriti/bandt/promotionen/",
+  "role": "Hướng dẫn tiến sĩ",
+  "kind": null
+ },
+ {
+  "from": 5,
+  "to": 10,
+  "year": "1997",
+  "place": "Greifswald",
+  "url": "https://math-inf.uni-greifswald.de/en/institut/ueber-uns/mitarbeitende/emeriti/bandt/promotionen/",
+  "role": "Hướng dẫn tiến sĩ",
+  "kind": null
+ },
+ {
+  "from": 5,
+  "to": 11,
+  "year": "1997",
+  "place": "Greifswald",
+  "url": "https://math-inf.uni-greifswald.de/en/institut/ueber-uns/mitarbeitende/emeriti/bandt/promotionen/",
+  "role": "Hướng dẫn tiến sĩ",
+  "kind": null
+ },
+ {
+  "from": 5,
+  "to": 12,
+  "year": "1998",
+  "place": "Greifswald",
+  "url": "https://math-inf.uni-greifswald.de/en/institut/ueber-uns/mitarbeitende/emeriti/bandt/promotionen/",
+  "role": "Hướng dẫn tiến sĩ",
+  "kind": null
+ },
+ {
+  "from": 5,
+  "to": 13,
+  "year": "1998",
+  "place": "Greifswald",
+  "url": "https://math-inf.uni-greifswald.de/en/institut/ueber-uns/mitarbeitende/emeriti/bandt/promotionen/",
+  "role": "Hướng dẫn tiến sĩ",
+  "kind": null
+ },
+ {
+  "from": 5,
+  "to": 14,
+  "year": "2000",
+  "place": "Greifswald",
+  "url": "https://math-inf.uni-greifswald.de/en/institut/ueber-uns/mitarbeitende/emeriti/bandt/promotionen/",
+  "role": "Hướng dẫn tiến sĩ",
+  "kind": null
+ },
+ {
+  "from": 5,
+  "to": 15,
+  "year": "2004",
+  "place": "Greifswald",
+  "url": "https://math-inf.uni-greifswald.de/en/institut/ueber-uns/mitarbeitende/emeriti/bandt/promotionen/",
+  "role": "Hướng dẫn tiến sĩ",
+  "kind": null
+ },
+ {
+  "from": 5,
+  "to": 16,
+  "year": "2004",
+  "place": "Greifswald",
+  "url": "https://math-inf.uni-greifswald.de/en/institut/ueber-uns/mitarbeitende/emeriti/bandt/promotionen/",
+  "role": "Hướng dẫn tiến sĩ",
+  "kind": null
+ },
+ {
+  "from": 5,
+  "to": 17,
+  "year": "2006",
+  "place": "Greifswald",
+  "url": "https://math-inf.uni-greifswald.de/en/institut/ueber-uns/mitarbeitende/emeriti/bandt/promotionen/",
+  "role": "Hướng dẫn tiến sĩ",
+  "kind": null
+ },
+ {
+  "from": 5,
+  "to": 18,
+  "year": "2007",
+  "place": "Greifswald",
+  "url": "https://math-inf.uni-greifswald.de/en/institut/ueber-uns/mitarbeitende/emeriti/bandt/promotionen/",
+  "role": "Hướng dẫn tiến sĩ",
+  "kind": null
+ },
+ {
+  "from": 5,
+  "to": 19,
+  "year": "2008",
+  "place": "Greifswald",
+  "url": "https://math-inf.uni-greifswald.de/en/institut/ueber-uns/mitarbeitende/emeriti/bandt/promotionen/",
+  "role": "Hướng dẫn tiến sĩ",
+  "kind": null
+ },
+ {
+  "from": 5,
+  "to": 20,
+  "year": "2008",
+  "place": "Greifswald",
+  "url": "https://math-inf.uni-greifswald.de/en/institut/ueber-uns/mitarbeitende/emeriti/bandt/promotionen/",
+  "role": "Hướng dẫn tiến sĩ",
+  "kind": null
+ },
+ {
+  "from": 5,
+  "to": 21,
+  "year": "2010",
+  "place": "Greifswald",
+  "url": "https://math-inf.uni-greifswald.de/en/institut/ueber-uns/mitarbeitende/emeriti/bandt/promotionen/",
+  "role": "Hướng dẫn tiến sĩ",
+  "kind": null
+ },
+ {
+  "from": 5,
+  "to": 22,
+  "year": "2011",
+  "place": "Greifswald",
+  "url": "https://math-inf.uni-greifswald.de/en/institut/ueber-uns/mitarbeitende/emeriti/bandt/promotionen/",
+  "role": "Đồng hướng dẫn tiến sĩ với GS. C. Schmidt",
+  "kind": null
+ },
+ {
+  "from": 5,
+  "to": 23,
+  "year": "2012",
+  "place": "Greifswald",
+  "url": "https://math-inf.uni-greifswald.de/en/institut/ueber-uns/mitarbeitende/emeriti/bandt/promotionen/",
+  "role": "Hướng dẫn tiến sĩ",
+  "kind": null
+ },
+ {
+  "from": 5,
+  "to": 24,
+  "year": "2012",
+  "place": "Greifswald",
+  "url": "https://math-inf.uni-greifswald.de/en/institut/ueber-uns/mitarbeitende/emeriti/bandt/promotionen/",
+  "role": "Hướng dẫn tiến sĩ",
+  "kind": null
+ },
+ {
+  "from": 5,
+  "to": 25,
+  "year": "2012",
+  "place": "Greifswald",
+  "url": "https://math-inf.uni-greifswald.de/en/institut/ueber-uns/mitarbeitende/emeriti/bandt/promotionen/",
+  "role": "Hướng dẫn tiến sĩ",
+  "kind": null
+ },
+ {
+  "from": 5,
+  "to": 26,
+  "year": "2013",
+  "place": "Greifswald",
+  "url": "https://math-inf.uni-greifswald.de/en/institut/ueber-uns/mitarbeitende/emeriti/bandt/promotionen/",
+  "role": "Hướng dẫn tiến sĩ",
+  "kind": null
+ },
+ {
+  "from": 5,
+  "to": 27,
+  "year": "2014",
+  "place": "Greifswald",
+  "url": "https://math-inf.uni-greifswald.de/en/institut/ueber-uns/mitarbeitende/emeriti/bandt/promotionen/",
+  "role": "Hướng dẫn tiến sĩ",
+  "kind": null
+ },
+ {
+  "from": 5,
+  "to": 28,
+  "year": "2014",
+  "place": "Greifswald",
+  "url": "https://math-inf.uni-greifswald.de/en/institut/ueber-uns/mitarbeitende/emeriti/bandt/promotionen/",
+  "role": "Hướng dẫn tiến sĩ",
+  "kind": null
+ },
+ {
+  "from": 5,
+  "to": 29,
+  "year": "2015",
+  "place": "Greifswald",
+  "url": "https://math-inf.uni-greifswald.de/en/institut/ueber-uns/mitarbeitende/emeriti/bandt/promotionen/",
+  "role": "Hướng dẫn tiến sĩ",
+  "kind": null
+ },
+ {
+  "from": 5,
+  "to": 30,
+  "year": 1991,
+  "place": "Greifswald",
+  "url": "https://www.wikidata.org/wiki/Q102173132",
+  "role": "Hướng dẫn tiến sĩ theo MGP (dẫn lại ở Wikidata)",
+  "kind": null
+ },
+ {
+  "from": 5,
+  "to": 31,
+  "year": 1999,
+  "place": "Halle-Wittenberg",
+  "url": "https://webdoc.sub.gwdg.de/ebook/e/2002/pub/mathe/99H114/prom.pdf",
+  "role": "Thẩm định luận án thứ nhất",
+  "kind": "review"
+ },
+ {
+  "from": 0,
+  "to": 32,
+  "year": "1898",
+  "place": "Göttingen",
+  "url": "https://mathshistory.st-andrews.ac.uk/Extras/Hilbert_PhD_students/",
+  "role": "Hướng dẫn tiến sĩ",
+  "kind": null
+ },
+ {
+  "from": 1,
+  "to": 33,
+  "year": "1921",
+  "place": "Berlin",
+  "url": "https://mathshistory.st-andrews.ac.uk/Biographies/Bochner/",
+  "role": "Hướng dẫn tiến sĩ, với sự hỗ trợ của Issai Schur",
+  "kind": null
+ },
+ {
+  "from": 2,
+  "to": 34,
+  "year": "1941",
+  "place": "ETH Zürich",
+  "url": "https://math.ethz.ch/news-and-events/events/lecture-series/heinz-hopf-prize-and-lectures/why-hopf-lectures.html",
+  "role": "Hướng dẫn tiến sĩ",
+  "kind": null
+ },
+ {
+  "from": 3,
+  "to": 35,
+  "year": null,
+  "place": null,
+  "url": "https://math-inf.uni-greifswald.de/storages/uni-greifswald/fakultaet/mnf/mathinf/boldt/pdf-dateien/rinow-3.pdf",
+  "role": "Học trò theo kỷ yếu Đại học Greifswald",
+  "kind": "recorded"
+ }
+];
+const works=[
+ {
+  "who": [
+   0
+  ],
+  "title": "Grundlagen der Geometrie",
+  "meta": "1899 · Sách",
+  "url": "https://archive.org/details/grundlagendergeo00hilb",
+  "xyz": [
+   -340,
+   -106,
+   45
+  ]
+ },
+ {
+  "who": [
+   1
+  ],
+  "title": "Entwickelung willkürlicher Functionen nach Systemen vorgeschriebener",
+  "meta": "1905 · Luận án",
+  "url": "https://rcin.org.pl/dlibra/publication/17121/edition/67968",
+  "xyz": [
+   -220,
+   -90,
+   68
+  ]
+ },
+ {
+  "who": [
+   2
+  ],
+  "title": "Über Zusammenhänge zwischen Topologie und Metrik von Mannigfaltigkeiten",
+  "meta": "1925 · Luận án",
+  "url": "https://mathshistory.st-andrews.ac.uk/Biographies/Hopf/",
+  "xyz": [
+   -100,
+   -74,
+   45
+  ]
+ },
+ {
+  "who": [
+   3
+  ],
+  "title": "Über Zusammenhänge zwischen der Differentialgeometrie im Großen und im Kleinen",
+  "meta": "1932 · Công trình",
+  "url": "https://geodesic.mathdoc.fr/item/MZ_1932__35_168363/",
+  "xyz": [
+   20,
+   -58,
+   68
+  ]
+ },
+ {
+  "who": [
+   4
+  ],
+  "title": "Zur Spektralentwicklung topologischer Räume",
+  "meta": "1960 · Luận án",
+  "url": "https://www.mathgenealogy.org/id.php?id=22008",
+  "xyz": [
+   140,
+   -42,
+   45
+  ]
+ },
+ {
+  "who": [
+   4
+  ],
+  "title": "Über halbstetige Zerlegungen topologischer Räume",
+  "meta": "1962 · Bài báo",
+  "url": "https://doi.org/10.1002/mana.19620240102",
+  "xyz": [
+   140,
+   -62,
+   60
+  ]
+ },
+ {
+  "who": [
+   5
+  ],
+  "title": "On WALLMAN-SHANIN-compactifications",
+  "meta": "1977 · Bài báo",
+  "url": "https://doi.org/10.1002/mana.19770770125",
+  "xyz": [
+   260,
+   -26,
+   68
+  ]
+ },
+ {
+  "who": [
+   6
+  ],
+  "title": "Some Self-Similar Constructions in Two and Three Dimensions and Their Neighbor Geometry",
+  "meta": "2011 · Luận án lưu chiểu",
+  "url": "https://epub.ub.uni-greifswald.de/files/776/DuyThes_For_Bibliothek.pdf",
+  "xyz": [
+   380,
+   -10,
+   45
+  ]
+ },
+ {
+  "who": [
+   7
+  ],
+  "title": "Theorie der geometrischen Konstruktionen",
+  "meta": "1952 · Sách",
+  "url": "https://doi.org/10.1007/978-3-0348-6910-2",
+  "xyz": [
+   -80,
+   72,
+   -30
+  ]
+ },
+ {
+  "who": [
+   8
+  ],
+  "title": "Gruppen, Parkette und Selbstähnlichkeit",
+  "meta": "1994 · Đề tài trong danh sách Greifswald",
+  "url": "https://math-inf.uni-greifswald.de/en/institut/ueber-uns/mitarbeitende/emeriti/bandt/promotionen/",
+  "xyz": [
+   370,
+   97.0,
+   45.0
+  ]
+ },
+ {
+  "who": [
+   9
+  ],
+  "title": "Transportabstände in Maßräumen und eine Dimension für die Komplexität von Zeitreihen",
+  "meta": "1996 · Đề tài trong danh sách Greifswald",
+  "url": "https://math-inf.uni-greifswald.de/en/institut/ueber-uns/mitarbeitende/emeriti/bandt/promotionen/",
+  "xyz": [
+   389,
+   -172.29215204931785,
+   155.10494557597121
+  ]
+ },
+ {
+  "who": [
+   10
+  ],
+  "title": "Kanten-Prozesse",
+  "meta": "1997 · Đề tài trong danh sách Greifswald",
+  "url": "https://math-inf.uni-greifswald.de/en/institut/ueber-uns/mitarbeitende/emeriti/bandt/promotionen/",
+  "xyz": [
+   408,
+   -44.44908361207237,
+   -117.37588620839702
+  ]
+ },
+ {
+  "who": [
+   11
+  ],
+  "title": "Dipolschätzungen in der Magnetokardiographie",
+  "meta": "1997 · Đề tài trong danh sách Greifswald",
+  "url": "https://math-inf.uni-greifswald.de/en/institut/ueber-uns/mitarbeitende/emeriti/bandt/promotionen/",
+  "xyz": [
+   370,
+   36.30810822716789,
+   174.35685411013006
+  ]
+ },
+ {
+  "who": [
+   12
+  ],
+  "title": "Aperiodische Überdeckungen mit einem Clustertyp",
+  "meta": "1998 · Đề tài trong danh sách Greifswald",
+  "url": "https://math-inf.uni-greifswald.de/en/institut/ueber-uns/mitarbeitende/emeriti/bandt/promotionen/",
+  "xyz": [
+   389,
+   -210.6306150328696,
+   16.60848958160466
+  ]
+ },
+ {
+  "who": [
+   13
+  ],
+  "title": "Zur Modellierung und Analyse von Magnetokardiogrammdaten",
+  "meta": "1998 · Đề tài trong danh sách Greifswald",
+  "url": "https://math-inf.uni-greifswald.de/en/institut/ueber-uns/mitarbeitende/emeriti/bandt/promotionen/",
+  "xyz": [
+   408,
+   72.7819751369305,
+   -42.48683055336839
+  ]
+ },
+ {
+  "who": [
+   14
+  ],
+  "title": "Empirical measures for particle systems",
+  "meta": "2000 · Đề tài trong danh sách Greifswald",
+  "url": "https://math-inf.uni-greifswald.de/en/institut/ueber-uns/mitarbeitende/emeriti/bandt/promotionen/",
+  "xyz": [
+   370,
+   -98.23846093693919,
+   202.4116154496015
+  ]
+ },
+ {
+  "who": [
+   15
+  ],
+  "title": "Distributions of distances in fractal measures, and the construction of self-similar sets",
+  "meta": "2004 · Đề tài trong danh sách Greifswald",
+  "url": "https://math-inf.uni-greifswald.de/en/institut/ueber-uns/mitarbeitende/emeriti/bandt/promotionen/",
+  "xyz": [
+   389,
+   -129.44081003196047,
+   -99.65397315365891
+  ]
+ },
+ {
+  "who": [
+   16
+  ],
+  "title": "Order patterns in time series",
+  "meta": "2004 · Đề tài trong danh sách Greifswald",
+  "url": "https://math-inf.uni-greifswald.de/en/institut/ueber-uns/mitarbeitende/emeriti/bandt/promotionen/",
+  "xyz": [
+   408,
+   87.59489864918763,
+   100.91501544350717
+  ]
+ },
+ {
+  "who": [
+   17
+  ],
+  "title": "Analyse der Wiederkehr in dynamischen Systemen auf einer Ordinalskala",
+  "meta": "2006 · Đề tài trong danh sách Greifswald",
+  "url": "https://math-inf.uni-greifswald.de/en/institut/ueber-uns/mitarbeitende/emeriti/bandt/promotionen/",
+  "xyz": [
+   370,
+   -201.2734389231101,
+   107.19400609676504
+  ]
+ },
+ {
+  "who": [
+   18
+  ],
+  "title": "Fractal n-gons",
+  "meta": "2007 · Đề tài trong danh sách Greifswald",
+  "url": "https://math-inf.uni-greifswald.de/en/institut/ueber-uns/mitarbeitende/emeriti/bandt/promotionen/",
+  "xyz": [
+   389,
+   7.695806718925226,
+   -102.63484513857387
+  ]
+ },
+ {
+  "who": [
+   19
+  ],
+  "title": "Verlaufsanalysen klinischer und Laborparameter bei Intensivpatienten",
+  "meta": "2008 · Đề tài trong danh sách Greifswald",
+  "url": "https://math-inf.uni-greifswald.de/en/institut/ueber-uns/mitarbeitende/emeriti/bandt/promotionen/",
+  "xyz": [
+   408,
+   -11.610627277173734,
+   200.52862833362684
+  ]
+ },
+ {
+  "who": [
+   20
+  ],
+  "title": "Fraktale endlichen Typs",
+  "meta": "2008 · Đề tài trong danh sách Greifswald",
+  "url": "https://math-inf.uni-greifswald.de/en/institut/ueber-uns/mitarbeitende/emeriti/bandt/promotionen/",
+  "xyz": [
+   370,
+   -192.1079517603409,
+   -36.72904695857139
+  ]
+ },
+ {
+  "who": [
+   21
+  ],
+  "title": "Neighborhoods and neighborhood graphs of self-similar sets",
+  "meta": "2010 · Đề tài trong danh sách Greifswald",
+  "url": "https://math-inf.uni-greifswald.de/en/institut/ueber-uns/mitarbeitende/emeriti/bandt/promotionen/",
+  "xyz": [
+   389,
+   93.38464551737374,
+   10.000257625532655
+  ]
+ },
+ {
+  "who": [
+   22
+  ],
+  "title": "Identifizierung von Translokationen und beteiligten Genen in Leukämien",
+  "meta": "2011 · Đề tài trong danh sách Greifswald",
+  "url": "https://math-inf.uni-greifswald.de/en/institut/ueber-uns/mitarbeitende/emeriti/bandt/promotionen/",
+  "xyz": [
+   408,
+   -147.1446537029334,
+   178.3444776314691
+  ]
+ },
+ {
+  "who": [
+   23
+  ],
+  "title": "Stochastische Prozesse auf ordinaler Skala",
+  "meta": "2012 · Đề tài trong danh sách Greifswald",
+  "url": "https://math-inf.uni-greifswald.de/en/institut/ueber-uns/mitarbeitende/emeriti/bandt/promotionen/",
+  "xyz": [
+   389,
+   60.52096145377057,
+   150.04440008342175
+  ]
+ },
+ {
+  "who": [
+   24
+  ],
+  "title": "Multi-step discriminant analysis",
+  "meta": "2012 · Đề tài trong danh sách Greifswald",
+  "url": "https://math-inf.uni-greifswald.de/en/institut/ueber-uns/mitarbeitende/emeriti/bandt/promotionen/",
+  "xyz": [
+   408,
+   -212.8676133588214,
+   51.73544170461537
+  ]
+ },
+ {
+  "who": [
+   25
+  ],
+  "title": "Mutual information and its applications",
+  "meta": "2012 · Đề tài trong danh sách Greifswald",
+  "url": "https://math-inf.uni-greifswald.de/en/institut/ueber-uns/mitarbeitende/emeriti/bandt/promotionen/",
+  "xyz": [
+   370,
+   51.868107107795595,
+   -69.97740817920521
+  ]
+ },
+ {
+  "who": [
+   26
+  ],
+  "title": "Statistische Unabhängigkeit",
+  "meta": "2013 · Đề tài trong danh sách Greifswald",
+  "url": "https://math-inf.uni-greifswald.de/en/institut/ueber-uns/mitarbeitende/emeriti/bandt/promotionen/",
+  "xyz": [
+   389,
+   -65.15899829195162,
+   207.82604755801944
+  ]
+ },
+ {
+  "who": [
+   27
+  ],
+  "title": "Netzwerke und Fraktale",
+  "meta": "2014 · Đề tài trong danh sách Greifswald",
+  "url": "https://math-inf.uni-greifswald.de/en/institut/ueber-uns/mitarbeitende/emeriti/bandt/promotionen/",
+  "xyz": [
+   408,
+   -157.31046425225313,
+   -80.14826130583492
+  ]
+ },
+ {
+  "who": [
+   28
+  ],
+  "title": "Fraktale Schnitte",
+  "meta": "2014 · Đề tài trong danh sách Greifswald",
+  "url": "https://math-inf.uni-greifswald.de/en/institut/ueber-uns/mitarbeitende/emeriti/bandt/promotionen/",
+  "xyz": [
+   370,
+   95.61585868429816,
+   66.73477966616433
+  ]
+ },
+ {
+  "who": [
+   29
+  ],
+  "title": "Communities in networks",
+  "meta": "2015 · Đề tài trong danh sách Greifswald",
+  "url": "https://math-inf.uni-greifswald.de/en/institut/ueber-uns/mitarbeitende/emeriti/bandt/promotionen/",
+  "xyz": [
+   389,
+   -185.23259481784132,
+   138.09516785598106
+  ]
+ },
+ {
+  "who": [
+   30
+  ],
+  "title": "Symbolic dynamics for β-shifts and self-normal numbers",
+  "meta": "1997 · Bài báo",
+  "url": "https://doi.org/10.1017/S0143385797079182",
+  "xyz": [
+   415,
+   122,
+   5
+  ]
+ },
+ {
+  "who": [
+   32
+  ],
+  "title": "Über die Entwicklung einer willkürlichen Funktion nach den Nennern des Kettenbruches",
+  "meta": "1898 · Luận án",
+  "url": "https://mathshistory.st-andrews.ac.uk/Extras/Hilbert_PhD_students/",
+  "xyz": [
+   -225,
+   -165,
+   8
+  ]
+ },
+ {
+  "who": [
+   33
+  ],
+  "title": "Nghiên cứu các hệ trực giao của hàm giải tích phức",
+  "meta": "1921 · Chủ đề luận án",
+  "url": "https://mathshistory.st-andrews.ac.uk/Biographies/Bochner/",
+  "xyz": [
+   -105,
+   41,
+   75
+  ]
+ },
+ {
+  "who": [
+   34
+  ],
+  "title": "Zur Homotopietheorie gefaserter Räume",
+  "meta": "1941 · Luận án",
+  "url": "https://search.worldcat.org/title/45151267",
+  "xyz": [
+   15,
+   -133,
+   8
+  ]
+ },
+ {
+  "who": [
+   35
+  ],
+  "title": "Global Analysis on Open Manifolds",
+  "meta": "2007 · Sách",
+  "url": "https://books.google.com/books?id=JgiCtfP_cz4C",
+  "xyz": [
+   135,
+   73,
+   75
+  ]
+ }
+];
+const anchor=6, initialPeople=people.length, initialLinks=links.length;
+works.push({who:[31],title:"Zur Klassifizierung mehrdimensionaler Parkettsysteme, insbesondere unter Heranziehung der Invariante Entropie",meta:"1999 · Luận án · Halle-Wittenberg",url:"https://webdoc.sub.gwdg.de/ebook/e/2002/pub/mathe/99H114/prom.pdf",xyz:[415,-228,5]});
+const $=id=>document.getElementById(id),canvas=$("graph"),ctx=canvas.getContext("2d");
+let yaw=.17,pitch=-.12,zoom=1,withWorks=true,selected=people[anchor],points=[],drag;
+function link(label,url){
+ const a=document.createElement("a");a.textContent=label;a.href=url;a.target="_blank";a.rel="noopener";
+ return a;
+}
+function item(text,tag="p"){
+ const el=document.createElement(tag);el.textContent=text;return el;
+}
+function relation(e){
+ return people[e.from].name+" → "+people[e.to].name+" · "+[e.role,e.year,e.place].filter(Boolean).join(" · ")+(e.added?" · Người dùng bổ sung":"");
+}
+function select(node){
+ selected=node;
+ const panel=$("details");
+ panel.replaceChildren();
+ [...$("people").children].forEach((b,i)=>b.setAttribute("aria-pressed",String(people[i]===node)));
+ if(node.who){
+  panel.append(item(node.title,"h2"),item(node.meta),link("Mở công trình ↗",node.url),item("Nhà khoa học trên bản đồ","h3"));
+  for(const i of node.who){
+   const b=item(people[i].name,"button");b.onclick=()=>select(people[i]);panel.append(b);
+  }
+ }else{
+  const i=people.indexOf(node);
+  panel.append(item(node.name,"h2"),item(node.focus));
+  if(node.profile)panel.append(link("ORCID ↗",node.profile));
+  if(!node.student){
+   panel.append(item("Công trình và luận án","h3"));
+   if(!works.some(w=>w.who.includes(i)))panel.append(item("Chưa có công trình kèm nguồn trong bản đồ."));
+  }
+  for(const w of works.filter(w=>w.who.includes(i))){
+   const row=document.createElement("div");row.className="record";
+   row.append(link(w.title,w.url),item(w.meta));panel.append(row);
+  }
+  if(node.more)panel.append(link("Mở bản đồ công trình ↗",node.more));
+  panel.append(item("Quan hệ trong cây","h3"));
+  for(const e of links.filter(e=>e.from===i||e.to===i)){
+   const record=document.createElement("div");record.className="record";
+   const other=people[e.from===i?e.to:e.from];
+   const button=item(other.name,"button");button.onclick=()=>select(other);record.append(button);panel.append(record);
+   record.append(item(relation(e)),e.url?link("Nguồn xác minh ↗",e.url):item("Chưa đính kèm nguồn"));
+  }
+ }
+ draw();
+}
+function draw(){
+ const w=canvas.clientWidth,h=canvas.clientHeight,dpr=devicePixelRatio||1;
+ if(!w||!h)return;
+ if(canvas.width!==Math.round(w*dpr)||canvas.height!==Math.round(h*dpr)){
+  canvas.width=Math.round(w*dpr);canvas.height=Math.round(h*dpr);
+ }
+ ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,w,h);
+ const sy=Math.sin(yaw),cy=Math.cos(yaw),sp=Math.sin(pitch),cp=Math.cos(pitch);
+ const visibleWorks=withWorks?works.filter(w=>w===selected||w.who.some(i=>people[i]===selected||(!people[i].quiet&&!selected.quiet))):[];
+ const nodes=[...people,...visibleWorks];
+ const minX=Math.min(...nodes.map(n=>n.xyz[0])),maxX=Math.max(...nodes.map(n=>n.xyz[0]));
+ const center=(minX+maxX)/2;
+ const extent=Math.max(230,...nodes.map(n=>Math.hypot(n.xyz[0]-center,n.xyz[1],n.xyz[2])));
+ const camera=extent*2.8,scale=Math.min(w/(2*extent+160),h/(2*extent))*zoom;
+ const project=node=>{
+  const [px,y,z]=node.xyz,x=px-center,depth=z*cy-x*sy,q=y*sp+depth*cp,f=camera/(camera-q);
+  return {node,x:w/2+(x*cy+z*sy)*scale*f,y:h/2+(y*cp-depth*sp)*scale*f,z:q,r:(node.who?5:node.quiet?5.5:9)*f};
+ };
+ points=nodes.map(project).sort((a,b)=>a.z-b.z);
+ const byNode=new Map(points.map(p=>[p.node,p]));
+ function edge(a,b,color,dash,arrow){
+  ctx.strokeStyle=ctx.fillStyle=color;ctx.lineWidth=arrow?2.4:1.1;ctx.setLineDash(dash);
+  const d=Math.hypot(b.x-a.x,b.y-a.y);
+  if(d<a.r+b.r+4)return;
+  const x=(b.x-a.x)/d,y=(b.y-a.y)/d,ex=b.x-x*(b.r+2),ey=b.y-y*(b.r+2);
+  ctx.beginPath();ctx.moveTo(a.x+x*a.r,a.y+y*a.r);ctx.lineTo(ex,ey);ctx.stroke();
+  if(arrow){
+   ctx.beginPath();ctx.moveTo(ex,ey);ctx.lineTo(ex-9*x-4*y,ey-9*y+4*x);ctx.lineTo(ex-9*x+4*y,ey-9*y-4*x);ctx.fill();
+  }
+ }
+ for(const work of visibleWorks)for(const i of work.who)
+  edge(byNode.get(people[i]),byNode.get(work),work===selected||people[i]===selected?"#a8c9ff":"#577091",[],false);
+ for(const e of links){
+  const review=e.kind==="review";
+  const recorded=e.kind==="recorded";
+  const a=byNode.get(people[e.from]),b=byNode.get(people[e.to]);
+  const other=e.added&&e.role!=="Hướng dẫn tiến sĩ";
+  edge(a,b,review?"#ffc479":recorded?"#96dcff":other?"#d7bbff":"#7ef0d2",review||recorded?[7,6]:other?[2,5]:[],true);
+  if((review||recorded) && !people[e.to].quiet && (selected===people[e.from] || selected===people[e.to])){
+   ctx.setLineDash([]);ctx.font="600 "+(w<500?10:12)+"px system-ui";ctx.textAlign="center";
+   ctx.strokeStyle="#0b1522";ctx.lineWidth=4;ctx.fillStyle=review?"#ffc479":"#96dcff";
+   const x=(a.x+b.x)/2,y=(a.y+b.y)/2+22;
+   ctx.strokeText(e.role,x,y);ctx.fillText(e.role,x,y);
+  }
+ }
+ ctx.setLineDash([]);
+ for(const p of points){
+  ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+  ctx.fillStyle=p.node===selected?"#ffffff":p.node.who?"#a8c9ff":p.node.student?"#d7bbff":"#7ef0d2";ctx.fill();
+  if(!p.node.who&&(!p.node.quiet||p.node===selected)){
+   ctx.font="600 "+(w<500?10:13)+"px system-ui";ctx.textAlign="center";
+   ctx.lineWidth=4;ctx.strokeStyle="#0b1522";ctx.fillStyle="#f1f6fd";
+   ctx.strokeText(p.node.short,p.x,p.y-p.r-7);ctx.fillText(p.node.short,p.x,p.y-p.r-7);
+  }
+ }
+}
+const studentKey="cay-hilbert-duymt-students-v1";
+const roles={doctorate:"Hướng dẫn tiến sĩ",masters:"Hướng dẫn thạc sĩ",research:"Hướng dẫn nghiên cứu"};
+let students=[];
+function readStudent(row){
+ const field=(key,max)=>typeof row?.[key]==="string"?row[key].trim().slice(0,max):"";
+ const name=field("name",120),role=field("role",20),year=field("year",4);
+ if(!name || !Object.hasOwn(roles,role) || (year && !/^(19|20)\d{2}$/.test(year)))throw Error("Kiểm tra họ tên, loại hướng dẫn và năm (1900–2099).");
+ const url=field("url",1500);
+ if(url){
+  let parsed;
+  try{ parsed=new URL(url); }catch{ throw Error("Nguồn cần là một URL hợp lệ."); }
+  if(!["https:","http:"].includes(parsed.protocol)||parsed.username||parsed.password)throw Error("Nguồn cần là URL http hoặc https.");
+ }
+ return {name,role,year,place:field("place",180),url};
+}
+function studentKeyOf(p){
+ return [p.name.toLocaleLowerCase("vi").normalize("NFC").replace(/\s+/g," "),p.role,p.year].join("|");
+}
+function appendStudents(rows){
+ const keys=new Set(students.map(studentKeyOf));
+ let added=0,invalid=0,duplicates=0;
+ for(const row of rows){
+  let p;
+  try{p=readStudent(row)}catch{invalid++;continue}
+  const key=studentKeyOf(p);
+  if(keys.has(key)){duplicates++;continue}
+  students.push(p);keys.add(key);added++;
+ }
+ return {added,invalid,duplicates};
+}
+function renderStudents(){
+ people.splice(initialPeople);
+ links.splice(initialLinks);
+ students.forEach((p,i)=>{
+  const ring=Math.floor(i/10), angle=i*2.399963;
+  const base=people[anchor].xyz;
+  people.push({name:p.name,short:p.name,student:true,focus:["Thế hệ 8",roles[p.role],p.year,p.place].filter(Boolean).join(" · "),
+   xyz:[base[0]+124+ring*85,base[1]+(105+ring*35)*Math.cos(angle),base[2]+(125+ring*35)*Math.sin(angle)]});
+  links.push({from:anchor,to:initialPeople+i,role:roles[p.role],year:p.year,place:p.place,url:p.url,added:true});
+ });
+ $("people").replaceChildren();
+ for(const p of people){const b=item(p.short,"button");b.onclick=()=>select(p);$("people").append(b)}
+ $("evidence").replaceChildren();
+ for(const e of links){
+  const li=item(relation(e)+" · ","li");
+  li.append(e.url?link("Xem nguồn ↗",e.url):item("Chưa đính kèm nguồn","span"));
+  $("evidence").append(li);
+ }
+}
+function saveStudents(){
+ try{localStorage.setItem(studentKey,JSON.stringify(students));return true}catch{return false}
+}
+function storageNotice(saved){
+ return saved?"":" Trình duyệt không lưu được. Hãy tải JSON để giữ danh sách.";
+}
+try{
+ const saved=JSON.parse(localStorage.getItem(studentKey)??"[]");
+ if(Array.isArray(saved))appendStudents(saved);
+}catch{}
+renderStudents();
+$("student-form").onsubmit=e=>{
+ e.preventDefault();
+ try{
+  const row=Object.fromEntries(new FormData(e.target));
+  const p=readStudent(row),result=appendStudents([p]);
+  if(!result.added)throw Error("Học trò này đã có cùng loại quan hệ và năm.");
+  const saved=saveStudents();
+  renderStudents();
+  select(people.at(-1));
+  e.target.reset();
+  $("student-status").textContent="Đã thêm "+p.name+" vào nhánh của Mai Thế Duy."+storageNotice(saved);
+ }catch(error){$("student-status").textContent=error.message}
+};
+$("export-students").onclick=()=>{
+ const url=URL.createObjectURL(new Blob([JSON.stringify(students,null,2)+"\n"],{type:"application/json"}));
+ const a=document.createElement("a");a.href=url;a.download="hoc-tro-duymt.json";a.click();
+ setTimeout(()=>URL.revokeObjectURL(url),2000);
+};
+$("import-students").onclick=()=>$("student-file").click();
+$("student-file").onchange=async e=>{
+ const file=e.target.files?.[0];
+ if(!file)return;
+ try{
+  const rows=JSON.parse((await file.text()).replace(/^\uFEFF/,""));
+  if(!Array.isArray(rows))throw Error("JSON phải là danh sách học trò.");
+  const {added,duplicates,invalid}=appendStudents(rows);
+  const saved=!added||saveStudents();
+  if(added){renderStudents();select(people[anchor])}
+  $("student-status").textContent=added+" mục đã thêm · "+duplicates+" mục trùng · "+invalid+" mục sai định dạng."+storageNotice(saved);
+ }catch(error){$("student-status").textContent="Không đọc được danh sách. "+error.message}
+ finally{e.target.value=""}
+};
+$("toggle").onclick=()=>{
+ withWorks=!withWorks;$("toggle").setAttribute("aria-pressed",String(withWorks));
+ if(!withWorks&&selected.who)select(people[selected.who[0]]);else draw();
+};
+$("reset").onclick=()=>{yaw=.17;pitch=-.12;zoom=1;draw()};
+canvas.onpointerdown=e=>{
+ if(e.button!==0||!e.isPrimary)return;
+ drag={id:e.pointerId,x:e.clientX,y:e.clientY,yaw,pitch,moved:false};canvas.setPointerCapture(e.pointerId);
+};
+canvas.onpointermove=e=>{
+ if(drag?.id!==e.pointerId)return;
+ const x=e.clientX-drag.x,y=e.clientY-drag.y;
+ drag.moved ||= Math.hypot(x,y)>4;
+ if(drag.moved){yaw=drag.yaw+x*.009;pitch=drag.pitch+y*.009;draw()}
+};
+canvas.onpointerup=e=>{
+ if(drag?.id!==e.pointerId)return;
+ if(!drag.moved){
+  const rect=canvas.getBoundingClientRect(),x=e.clientX-rect.left,y=e.clientY-rect.top;
+  const hit=[...points].reverse().find(p=>Math.hypot(x-p.x,y-p.y)<=p.r+5);
+  if(hit)select(hit.node);
+ }
+ drag=null;
+};
+canvas.onpointercancel=()=>drag=null;
+canvas.addEventListener("wheel",e=>{e.preventDefault();zoom=Math.max(.45,Math.min(3.5,zoom*Math.exp(-e.deltaY*.001)));draw()},{passive:false});
+new ResizeObserver(draw).observe(canvas);
+select(selected);
+</script>
+</html>
